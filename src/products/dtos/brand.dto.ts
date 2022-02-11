@@ -1,9 +1,10 @@
 import { IsString, IsUrl, IsNotEmpty } from 'class-validator';
-import { PartialType } from '@nestjs/mapped-types';
+import { ApiProperty, PartialType } from '@nestjs/swagger';
 
 export class CreateBrandDto {
   @IsString()
   @IsNotEmpty()
+  @ApiProperty({ description: 'This property is the name' })
   readonly name: string;
 
   @IsUrl()
