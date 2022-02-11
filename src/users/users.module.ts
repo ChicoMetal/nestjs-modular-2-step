@@ -9,9 +9,6 @@ import { ProductsModule } from '../products/products.module';
 @Module({
   imports: [ProductsModule],
   controllers: [CustomerController, UsersController],
-  providers: [
-    CustomersService,
-    UsersService
-  ],
+  providers: [CustomersService, UsersService],
 })
 export class UsersModule {}

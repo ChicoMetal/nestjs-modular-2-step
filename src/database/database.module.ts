@@ -6,15 +6,16 @@ import { Global, HttpModule, HttpService, Module } from '@nestjs/common';
   providers: [
     {
       provide: 'TASKS',
-      useFactory: async (http: HttpService) => { // 👈 implement useFactory
+      useFactory: async (http: HttpService) => {
+        // 👈 implement useFactory
         const tasks = await http
           .get('https://jsonplaceholder.typicode.com/todos')
           .toPromise();
         return tasks.data;
       },
       inject: [HttpService],
-    }
+    },
   ],
-  exports: ['TASKS']
+  exports: ['TASKS'],
 })
 export class DatabaseModule {}

@@ -1,5 +1,5 @@
 export class Environment {
-  dev:  '.env';
+  dev: '.env';
   stag: '.stag.env';
   prod: '.prod.env';
 }

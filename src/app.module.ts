@@ -20,14 +20,12 @@ import * as joi from 'joi';
       validationSchema: joi.object({
         API_KEY: joi.number().required(),
         DATA_BASE_NAME: joi.string().required(),
-        DATA_BASE_PORT: joi.number().required()
+        DATA_BASE_PORT: joi.number().required(),
       }),
-      isGlobal: true
-    })
+      isGlobal: true,
+    }),
   ],
   controllers: [AppController],
-  providers: [
-    AppService
-  ],
+  providers: [AppService],
 })
 export class AppModule {}

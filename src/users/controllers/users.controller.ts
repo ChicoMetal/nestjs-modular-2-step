@@ -18,15 +18,18 @@ import config from 'src/config';
 
 @Controller('users')
 export class UsersController {
-
-  constructor(private usersService: UsersService,
+  constructor(
+    private usersService: UsersService,
     @Inject('TASKS') private tasks: any,
     private configService: ConfigService,
-    @Inject(config.KEY) private configServiceTypeOf: ConfigType<typeof config>) {
-
-    console.log(this.configService.get('API_KEY'), this.tasks[0], this.configServiceTypeOf.apiKey);
+    @Inject(config.KEY) private configServiceTypeOf: ConfigType<typeof config>,
+  ) {
+    console.log(
+      this.configService.get('API_KEY'),
+      this.tasks[0],
+      this.configServiceTypeOf.apiKey,
+    );
   }
-
 
   @Get()
   findAll() {
