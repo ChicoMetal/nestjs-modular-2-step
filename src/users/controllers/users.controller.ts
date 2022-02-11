@@ -13,12 +13,18 @@ import {
 import { UsersService } from '../services/users.service';
 import { CreateUserDto, UpdateUserDto } from '../dtos/user.dto';
 import { Order } from '../entities/order.entity';
+import { ConfigService, ConfigType } from '@nestjs/config';
+import config from 'src/config';
 
 @Controller('users')
 export class UsersController {
 
-  constructor(private usersService: UsersService, @Inject('TASKS') private tasks: any) {
-    console.log(this.tasks)
+  constructor(private usersService: UsersService,
+    @Inject('TASKS') private tasks: any,
+    private configService: ConfigService,
+    @Inject(config.KEY) private configServiceTypeOf: ConfigType<typeof config>) {
+
+    console.log(this.configService.get('API_KEY'), this.tasks[0], this.configServiceTypeOf.apiKey);
   }
 
 
