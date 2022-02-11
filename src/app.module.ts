@@ -7,6 +7,7 @@ import { ProductsModule } from './products/products.module';
 import { DatabaseModule } from './database/database.module';
 import { Environment } from './environment';
 import config from './config';
+import * as joi from 'joi';
 
 @Module({
   imports: [
@@ -16,6 +17,11 @@ import config from './config';
     ConfigModule.forRoot({
       envFilePath: Environment[process.env.NODE_ENV] || '.env',
       load: [config],
+      validationSchema: joi.object({
+        API_KEY: joi.number().required(),
+        DATA_BASE_NAME: joi.string().required(),
+        DATA_BASE_PORT: joi.number().required()
+      }),
       isGlobal: true
     })
   ],
