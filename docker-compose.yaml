@@ -1,0 +1,12 @@
+version: '3.3'
+
+services:
+  mongo:
+    image: mongo:latest
+    environment:
+      MONGO_INITB_OOT_USERNAME: root
+      MONGO_INITB_OOT_PASSWORD: root
+    ports:
+      - 27017:27017
+    volumes:
+      - ./mongo_data:/data/db
