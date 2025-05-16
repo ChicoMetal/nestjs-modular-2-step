@@ -1,4 +1,5 @@
-import { Global, HttpModule, HttpService, Module } from '@nestjs/common';
+import { HttpModule, HttpService } from '@nestjs/axios';
+import { Global, Module } from '@nestjs/common';
 
 @Global()
 @Module({
@@ -9,9 +10,8 @@ import { Global, HttpModule, HttpService, Module } from '@nestjs/common';
       useFactory: async (http: HttpService) => {
         // 👈 implement useFactory
         const tasks = await http
-          .get('https://jsonplaceholder.typicode.com/todos')
-          .toPromise();
-        return tasks.data;
+          .get('https://jsonplaceholder.typicode.com/todos');
+        return tasks;
       },
       inject: [HttpService],
     },

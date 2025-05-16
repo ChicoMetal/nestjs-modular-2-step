@@ -8,13 +8,8 @@ import {
   Delete,
   ParseIntPipe,
   Inject,
-  Res,
   Req,
   BadRequestException,
-  Injectable,
-  CanActivate,
-  ExecutionContext,
-  UseGuards,
 } from '@nestjs/common';
 
 import { UsersService } from '../services/users.service';

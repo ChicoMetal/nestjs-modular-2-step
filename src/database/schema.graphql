@@ -8,8 +8,8 @@ interface BaseModel {
 }
 
 type CommonAttributes {
-  name: string;
-  description: string;
+  name: String
+  description: String
 }
 
 type BaseModelAttributes {
@@ -20,60 +20,57 @@ type BaseModelAttributes {
 }
 
 type Product implements BaseModel {
-  # id: ID!
-  # createAt: DateTime!
-  # updateAt: DateTime
-  # deleteAt: DateTime
-  baseModelAttributes: BaseModelAttributes
+  id: ID!
+  createAt: DateTime!
+  updateAt: DateTime
+  deleteAt: DateTime
 
-  name: string
-  description: string
-  price: number
-  stock: number
-  image: string
+  name: String
+  description: String
+  price: Int
+  stock: Int
+  image: String
 }
 
 input ProductCreateInput {
-  name: string
-  description: string
-  price: number
-  stock: number
-  image: string
+  name: String
+  description: String
+  price: Int
+  stock: Int
+  image: String
 }
 
 
 type Brand implements BaseModel {
-  # id: ID!
-  # createAt: DateTime!
-  # updateAt: DateTime
-  # deleteAt: DateTime
-  baseModelAttributes: BaseModelAttributes
+  id: ID!
+  createAt: DateTime!
+  updateAt: DateTime
+  deleteAt: DateTime
 
-  name: string
-  description: string
-  image: string
+  name: String
+  description: String
+  image: String
 }
 
 input BrandCreateInput {
-  name: string
-  description: string
-  image: string
+  name: String
+  description: String
+  image: String
 }
 
 type Category implements BaseModel {
-  # id: ID!
-  # createAt: DateTime!
-  # updateAt: DateTime
-  # deleteAt: DateTime
-  baseModelAttributes: BaseModelAttributes
+  id: ID!
+  createAt: DateTime!
+  updateAt: DateTime
+  deleteAt: DateTime
 
-  name: string
-  description: string
+  name: String
+  description: String
 }
 
 input CategoryCreateInput {
-  name: string
-  description: string
+  name: String
+  description: String
 }
 
 type Mutation {
@@ -90,3 +87,4 @@ type Query {
   brands: [Brand]!
   brand(id: ID!): Brand
 }
+

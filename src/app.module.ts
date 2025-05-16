@@ -11,8 +11,10 @@ import * as joi from 'joi';
 import { MongoClient } from 'mongodb';
 import { JwtModule } from '@nestjs/jwt';
 import { AuthGuard } from './guards/auth-guard.guard';
-// import { GraphQLModule } from '@nestjs/graphql';
-// import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
+import { AppResolver } from './database/app.resolver';
+import { GraphQLModule } from '@nestjs/graphql';
+import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
+
 
 const uriMongo = 'mongodb://localhost:27017';
 const client = new MongoClient(uriMongo);
@@ -44,12 +46,17 @@ run();
       secret: process.env.SECRET_KEY || 'my-secret-key-local-only',
       signOptions: { expiresIn: '1h' },
     }),
-    // GraphQLModule.forRoot<ApolloDriverConfig>({
-    //   driver: ApolloDriver,
-    //   graphiql: true,
-    // }),
+    GraphQLModule.forRoot<ApolloDriverConfig>({
+      driver: ApolloDriver,
+      typePaths: ['./**/*.graphql'],
+      graphiql: true,
+    }),
   ],
   controllers: [AppController],
-  providers: [AppService, AuthGuard],
+  providers: [
+    AppService,
+    AuthGuard,
+    AppResolver
+  ],
 })
 export class AppModule {}
