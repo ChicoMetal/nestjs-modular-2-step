@@ -11,6 +11,7 @@ export class BrandsService {
       id: 1,
       name: 'Brand 1',
       image: 'https://i.imgur.com/U4iGx1j.jpeg',
+      description: 'test',
     },
   ];
 

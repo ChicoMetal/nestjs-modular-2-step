@@ -8,6 +8,13 @@ import {
   Delete,
   ParseIntPipe,
   Inject,
+  Res,
+  Req,
+  BadRequestException,
+  Injectable,
+  CanActivate,
+  ExecutionContext,
+  UseGuards,
 } from '@nestjs/common';
 
 import { UsersService } from '../services/users.service';
@@ -15,7 +22,11 @@ import { CreateUserDto, UpdateUserDto } from '../dtos/user.dto';
 import { Order } from '../entities/order.entity';
 import { ConfigService, ConfigType } from '@nestjs/config';
 import config from 'src/config';
+import { ApiTags } from '@nestjs/swagger';
+import { Response, Request } from 'express';
+import { JwtService } from '@nestjs/jwt';
 
+@ApiTags('User')
 @Controller('users')
 export class UsersController {
   constructor(
@@ -23,6 +34,7 @@ export class UsersController {
     @Inject('TASKS') private tasks: any,
     private configService: ConfigService,
     @Inject(config.KEY) private configServiceTypeOf: ConfigType<typeof config>,
+    private readonly jwtService: JwtService,
   ) {
     console.log(
       this.configService.get('API_KEY'),
@@ -39,6 +51,24 @@ export class UsersController {
   @Get(':id')
   get(@Param('id', ParseIntPipe) id: number) {
     return this.usersService.findOne(id);
+  }
+
+  @Get('/authorization/verify')
+  getByUserName(@Req() request: Request) {
+    // @Param('email') email: string,
+    const cookies = request.headers.cookie;
+    const cookieObject = cookies.split(';').reduce((acc, cookie) => {
+      const [key, value] = cookie.trim().split('=');
+      acc[key] = value;
+      return acc;
+    }, {} as Record<string, string>);
+    const token = cookieObject['access_token'];
+    if (!token) throw new BadRequestException(`Invalid request`);
+
+    const user = this.jwtService.verify(token, {
+      secret: process.env.SECRET_KEY,
+    });
+    return this.usersService.findOneByUserName(user.user);
   }
 
   @Post()

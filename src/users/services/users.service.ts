@@ -19,7 +19,7 @@ export class UsersService {
     },
   ];
 
-  constructor(private productService: ProductsService) {}
+  // constructor(private productService: ProductsService) {}
 
   findAll() {
     return this.users;
@@ -29,6 +29,14 @@ export class UsersService {
     const user = this.users.find((item) => item.id === id);
     if (!user) {
       throw new NotFoundException(`User #${id} not found`);
+    }
+    return user;
+  }
+
+  findOneByUserName(userName: string): User {
+    const user = this.users.find((item) => item.email === userName);
+    if (!user) {
+      throw new NotFoundException(`User #${userName} not found`);
     }
     return user;
   }
@@ -63,12 +71,13 @@ export class UsersService {
   }
 
   getOrderByUser(id: number): Order {
-    const user = this.findOne(id);
-    const products = this.productService.findAll();
-    return {
-      date: new Date(),
-      user: user,
-      products: products,
-    };
+    return null;
+    // const user = this.findOne(id);
+    // const products = this.productService.findAll();
+    // return {
+    //   date: new Date(),
+    //   user: user,
+    //   products: products,
+    // };
   }
 }

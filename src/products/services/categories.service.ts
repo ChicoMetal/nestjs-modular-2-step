@@ -10,6 +10,7 @@ export class CategoriesService {
     {
       id: 1,
       name: 'Category 1',
+      description: 'Category 1',
     },
   ];
 

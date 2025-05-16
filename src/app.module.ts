@@ -1,4 +1,4 @@
-import { HttpModule, HttpService, Module } from '@nestjs/common';
+import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
@@ -8,7 +8,22 @@ import { DatabaseModule } from './database/database.module';
 import { Environment } from './environment';
 import config from './config';
 import * as joi from 'joi';
+import { MongoClient } from 'mongodb';
+import { JwtModule } from '@nestjs/jwt';
+import { AuthGuard } from './guards/auth-guard.guard';
+// import { GraphQLModule } from '@nestjs/graphql';
+// import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 
+const uriMongo = 'mongodb://localhost:27017';
+const client = new MongoClient(uriMongo);
+async function run() {
+  await client.connect();
+  const database = client.db('platzi-store');
+  const taskCollection = database.collection('tasks');
+  const tasks = await taskCollection.find().toArray();
+  console.log(tasks);
+}
+run();
 @Module({
   imports: [
     UsersModule,
@@ -24,8 +39,17 @@ import * as joi from 'joi';
       }),
       isGlobal: true,
     }),
+    JwtModule.register({
+      global: true,
+      secret: process.env.SECRET_KEY || 'my-secret-key-local-only',
+      signOptions: { expiresIn: '1h' },
+    }),
+    // GraphQLModule.forRoot<ApolloDriverConfig>({
+    //   driver: ApolloDriver,
+    //   graphiql: true,
+    // }),
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, AuthGuard],
 })
 export class AppModule {}

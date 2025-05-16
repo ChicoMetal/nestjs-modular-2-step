@@ -7,6 +7,11 @@ export class CreateBrandDto {
   @ApiProperty({ description: 'This property is the name' })
   readonly name: string;
 
+  @IsString()
+  @IsNotEmpty()
+  @ApiProperty({ description: 'This property is the name' })
+  readonly description: string;
+
   @IsUrl()
   @IsNotEmpty()
   readonly image: string;

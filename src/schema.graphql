@@ -1,0 +1,92 @@
+scalar DateTime
+
+interface BaseModel {
+  id: ID!
+  createAt: DateTime!
+  updateAt: DateTime
+  deleteAt: DateTime
+}
+
+type CommonAttributes {
+  name: string;
+  description: string;
+}
+
+type BaseModelAttributes {
+  id: ID!
+  createAt: DateTime!
+  updateAt: DateTime
+  deleteAt: DateTime
+}
+
+type Product implements BaseModel {
+  # id: ID!
+  # createAt: DateTime!
+  # updateAt: DateTime
+  # deleteAt: DateTime
+  baseModelAttributes: BaseModelAttributes
+
+  name: string
+  description: string
+  price: number
+  stock: number
+  image: string
+}
+
+input ProductCreateInput {
+  name: string
+  description: string
+  price: number
+  stock: number
+  image: string
+}
+
+
+type Brand implements BaseModel {
+  # id: ID!
+  # createAt: DateTime!
+  # updateAt: DateTime
+  # deleteAt: DateTime
+  baseModelAttributes: BaseModelAttributes
+
+  name: string
+  description: string
+  image: string
+}
+
+input BrandCreateInput {
+  name: string
+  description: string
+  image: string
+}
+
+type Category implements BaseModel {
+  # id: ID!
+  # createAt: DateTime!
+  # updateAt: DateTime
+  # deleteAt: DateTime
+  baseModelAttributes: BaseModelAttributes
+
+  name: string
+  description: string
+}
+
+input CategoryCreateInput {
+  name: string
+  description: string
+}
+
+type Mutation {
+  createProduct(data: ProductCreateInput): Product!
+  createBrand(data: BrandCreateInput): Brand!
+  createCategory(data: CategoryCreateInput): Category!
+}
+
+type Query {
+  products: [Product]!
+  product(id: ID!): Product
+  categories: [Category]!
+  category(id: ID!): Category
+  brands: [Brand]!
+  brand(id: ID!): Brand
+}
