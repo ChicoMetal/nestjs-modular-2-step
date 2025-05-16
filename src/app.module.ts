@@ -14,6 +14,7 @@ import { AuthGuard } from './guards/auth-guard.guard';
 import { AppResolver } from './database/app.resolver';
 import { GraphQLModule } from '@nestjs/graphql';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
+import { ApolloServerPluginLandingPageLocalDefault } from '@apollo/server/plugin/landingPage/default';
 
 
 const uriMongo = 'mongodb://localhost:27017';
@@ -49,7 +50,9 @@ run();
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
       typePaths: ['./**/*.graphql'],
-      graphiql: true,
+      graphiql: false, // new to use instead of playground
+      playground: false, //deprecated
+      plugins: [ApolloServerPluginLandingPageLocalDefault()], // dev mode
     }),
   ],
   controllers: [AppController],
