@@ -34,13 +34,9 @@ export class CategoriesService {
   }
 
   create(data: CreateCategoryDto) {
-    this.counterId = this.counterId + 1;
-    const newCategory = {
-      id: this.counterId,
-      ...data,
-    };
-    this.categories.push(newCategory);
-    return newCategory;
+    return this.prismaService.category.create({
+      data
+    });
   }
 
   update(id: number, changes: UpdateCategoryDto) {

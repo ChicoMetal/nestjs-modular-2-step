@@ -1,4 +1,4 @@
-import { Query, Resolver } from '@nestjs/graphql';
+import { Mutation, Query, Resolver } from '@nestjs/graphql';
 import { randomUUID } from 'crypto';
 import { Product } from '../../database/graphql';
 import { ProductsService } from '../services/products.service';
@@ -17,6 +17,11 @@ export class ProductResolver {
   @Query()
   product(_, {id}): Product {
     return this.productsService.findOne(id) as unknown as Product;
+  }
+
+  @Mutation()
+  addProduct(_, { data }): Product {
+    return this.productsService.create(data) as unknown as Product;
   }
 
 }

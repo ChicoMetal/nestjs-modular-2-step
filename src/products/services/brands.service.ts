@@ -35,13 +35,9 @@ export class BrandsService {
   }
 
   create(data: CreateBrandDto) {
-    this.counterId = this.counterId + 1;
-    const newBrand = {
-      id: this.counterId,
-      ...data,
-    };
-    this.brands.push(newBrand);
-    return newBrand;
+    return this.prismaService.brand.create({
+      data
+    });
   }
 
   update(id: number, changes: UpdateBrandDto) {

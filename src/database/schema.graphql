@@ -38,6 +38,7 @@ input ProductCreateInput {
   price: Int
   stock: Int
   image: String
+  createAt: DateTime!
 }
 
 
@@ -53,9 +54,10 @@ type Brand implements BaseModel {
 }
 
 input BrandCreateInput {
-  name: String
+  name: String!
   description: String
   image: String
+  createAt: DateTime!
 }
 
 type Category implements BaseModel {
@@ -71,6 +73,7 @@ type Category implements BaseModel {
 input CategoryCreateInput {
   name: String
   description: String
+  createAt: DateTime!
 }
 
 type Mutation {
@@ -89,3 +92,8 @@ type Query {
   testList(elements: [Int!]!): [Int]!
 }
 
+type Mutation {
+  addProduct(data: ProductCreateInput!): Product!
+  addBrand(data: BrandCreateInput!): Brand!
+  addCategory(data: CategoryCreateInput!): Category!
+}

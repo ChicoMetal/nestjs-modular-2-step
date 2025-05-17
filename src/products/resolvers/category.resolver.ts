@@ -1,4 +1,4 @@
-import { Query, Resolver } from '@nestjs/graphql';
+import { Mutation, Query, Resolver } from '@nestjs/graphql';
 import { randomUUID } from 'crypto';
 import { Category } from '../../database/graphql';
 import { CategoriesService } from '../services/categories.service';
@@ -19,4 +19,8 @@ export class CategoryResolver {
     return this.categoriesServiceService.findOne(id) as unknown as Category;
   }
 
+  @Mutation()
+  addCategory(_, { data }): Category {
+    return this.categoriesServiceService.create(data) as unknown as Category;
+  }
 }
