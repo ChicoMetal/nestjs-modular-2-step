@@ -28,6 +28,9 @@ export class CreateProductDto {
   @IsUrl()
   @IsNotEmpty()
   readonly image: string;
+
+  @IsNotEmpty()
+  readonly createAt: Date;
 }
 
 export class UpdateProductDto extends PartialType(CreateProductDto) {}

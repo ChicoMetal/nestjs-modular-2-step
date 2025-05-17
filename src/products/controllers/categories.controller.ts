@@ -24,7 +24,7 @@ export class CategoriesController {
   }
 
   @Get(':id')
-  get(@Param('id', ParseIntPipe) id: number) {
+  get(@Param('id', ParseIntPipe) id: string) {
     return this.categoriesService.findOne(id);
   }
 

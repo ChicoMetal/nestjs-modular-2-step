@@ -7,11 +7,25 @@ import { ProductsService } from './services/products.service';
 import { BrandsService } from './services/brands.service';
 import { CategoriesService } from './services/categories.service';
 import { UsersModule } from 'src/users/users.module';
+import { PrismaModule } from '../prisma/prisma.module';
+import { ProductResolver } from './resolvers/product.resolver';
+import { BrandResolver } from './resolvers/brand.resolver';
+import { CategoryResolver } from './resolvers/category.resolver';
 
 @Module({
-  imports: [UsersModule],
+  imports: [
+    UsersModule,
+    PrismaModule,
+  ],
   controllers: [ProductsController, CategoriesController, BrandsController],
-  providers: [ProductsService, BrandsService, CategoriesService],
+  providers: [
+    ProductsService,
+    BrandsService,
+    CategoriesService,
+    ProductResolver,
+    BrandResolver,
+    CategoryResolver,
+  ],
   exports: [ProductsService],
 })
 export class ProductsModule {}

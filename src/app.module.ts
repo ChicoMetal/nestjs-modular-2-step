@@ -15,21 +15,19 @@ import { AppResolver } from './database/app.resolver';
 import { GraphQLModule } from '@nestjs/graphql';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { ApolloServerPluginLandingPageLocalDefault } from '@apollo/server/plugin/landingPage/default';
-import { ProductResolver } from './products/entities/product.resolver';
-import { BrandResolver } from './products/entities/brand.resolver';
-import { CategoryResolver } from './products/entities/category.resolver';
+import { PrismaModule } from './prisma/prisma.module';
 
 
-const uriMongo = 'mongodb://localhost:27017';
-const client = new MongoClient(uriMongo);
-async function run() {
-  await client.connect();
-  const database = client.db('platzi-store');
-  const taskCollection = database.collection('tasks');
-  const tasks = await taskCollection.find().toArray();
-  console.log(tasks);
-}
-run();
+// const uriMongo = 'mongodb://localhost:27017';
+// const client = new MongoClient(uriMongo);
+// async function run() {
+//   await client.connect();
+//   const database = client.db('platzi-store');
+//   const taskCollection = database.collection('tasks');
+//   const tasks = await taskCollection.find().toArray();
+//   console.log(tasks);
+// }
+// run();
 @Module({
   imports: [
     UsersModule,
@@ -57,15 +55,13 @@ run();
       playground: false, //deprecated
       plugins: [ApolloServerPluginLandingPageLocalDefault()], // dev mode
     }),
+    PrismaModule,
   ],
   controllers: [AppController],
   providers: [
     AppService,
     AuthGuard,
     AppResolver,
-    ProductResolver,
-    BrandResolver,
-    CategoryResolver,
   ],
 })
 export class AppModule {}

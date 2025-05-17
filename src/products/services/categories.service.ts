@@ -2,6 +2,7 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 
 import { Category } from '../entities/category.entity';
 import { CreateCategoryDto, UpdateCategoryDto } from '../dtos/category.dto';
+import { PrismaService } from '../../prisma/prisma/prisma.service';
 
 @Injectable()
 export class CategoriesService {
@@ -14,12 +15,18 @@ export class CategoriesService {
     },
   ];
 
+  constructor(private readonly prismaService: PrismaService) { }
+
   findAll() {
-    return this.categories;
+    return this.prismaService.category.findMany();
   }
 
-  findOne(id: number) {
-    const category = this.categories.find((item) => item.id === id);
+  findOne(id: string) {
+    const category = this.prismaService.category.findUnique({
+      where: {
+        id
+      }
+    });
     if (!category) {
       throw new NotFoundException(`Category #${id} not found`);
     }
@@ -37,12 +44,12 @@ export class CategoriesService {
   }
 
   update(id: number, changes: UpdateCategoryDto) {
-    const category = this.findOne(id);
+    // const category = this.findOne(id);
     const index = this.categories.findIndex((item) => item.id === id);
-    this.categories[index] = {
-      ...category,
-      ...changes,
-    };
+    // this.categories[index] = {
+    //   ...category,
+    //   ...changes,
+    // };
     return this.categories[index];
   }
 

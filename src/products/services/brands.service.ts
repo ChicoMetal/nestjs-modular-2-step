@@ -2,6 +2,7 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 
 import { Brand } from '../entities/brand.entity';
 import { CreateBrandDto, UpdateBrandDto } from '../dtos/brand.dto';
+import { PrismaService } from '../../prisma/prisma/prisma.service';
 
 @Injectable()
 export class BrandsService {
@@ -15,12 +16,18 @@ export class BrandsService {
     },
   ];
 
+  constructor(private readonly prismaService: PrismaService) { }
+
   findAll() {
-    return this.brands;
+    return this.prismaService.brand.findMany();
   }
 
-  findOne(id: number) {
-    const product = this.brands.find((item) => item.id === id);
+  findOne(id: string) {
+    const product = this.prismaService.brand.findUnique({
+      where: {
+        id
+      }
+    });
     if (!product) {
       throw new NotFoundException(`Brand #${id} not found`);
     }
@@ -38,12 +45,12 @@ export class BrandsService {
   }
 
   update(id: number, changes: UpdateBrandDto) {
-    const brand = this.findOne(id);
+    // const brand = this.findOne(id);
     const index = this.brands.findIndex((item) => item.id === id);
-    this.brands[index] = {
-      ...brand,
-      ...changes,
-    };
+    // this.brands[index] = {
+    //   ...brand,
+    //   ...changes,
+    // };
     return this.brands[index];
   }
 
