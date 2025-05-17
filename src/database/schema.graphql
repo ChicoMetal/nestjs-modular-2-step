@@ -85,6 +85,7 @@ type Query {
   categories: [Category]!
   category(id: ID!): Category
   brands: [Brand]!
-  brand(id: ID!): Brand
+  brand(id: ID!): Brand!,
+  testList(elements: [Int!]!): [Int]!
 }
 

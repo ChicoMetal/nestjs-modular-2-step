@@ -86,8 +86,6 @@ export abstract class IMutation {
 }
 
 export abstract class IQuery {
-    abstract helloWord(): Nullable<string> | Promise<Nullable<string>>;
-
     abstract products(): Nullable<Product>[] | Promise<Nullable<Product>[]>;
 
     abstract product(id: string): Nullable<Product> | Promise<Nullable<Product>>;
@@ -98,7 +96,9 @@ export abstract class IQuery {
 
     abstract brands(): Nullable<Brand>[] | Promise<Nullable<Brand>[]>;
 
-    abstract brand(id: string): Nullable<Brand> | Promise<Nullable<Brand>>;
+    abstract brand(id: string): Brand | Promise<Brand>;
+
+    abstract testList(elements: number[]): Nullable<number>[] | Promise<Nullable<number>[]>;
 }
 
 export type DateTime = any;

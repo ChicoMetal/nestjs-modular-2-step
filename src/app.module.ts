@@ -15,6 +15,9 @@ import { AppResolver } from './database/app.resolver';
 import { GraphQLModule } from '@nestjs/graphql';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { ApolloServerPluginLandingPageLocalDefault } from '@apollo/server/plugin/landingPage/default';
+import { ProductResolver } from './products/entities/product.resolver';
+import { BrandResolver } from './products/entities/brand.resolver';
+import { CategoryResolver } from './products/entities/category.resolver';
 
 
 const uriMongo = 'mongodb://localhost:27017';
@@ -59,7 +62,10 @@ run();
   providers: [
     AppService,
     AuthGuard,
-    AppResolver
+    AppResolver,
+    ProductResolver,
+    BrandResolver,
+    CategoryResolver,
   ],
 })
 export class AppModule {}
