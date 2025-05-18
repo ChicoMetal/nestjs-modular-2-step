@@ -10,17 +10,27 @@ export class CategoryResolver {
 
 
   @Query()
-  categories(): Category[] {
-    return this.categoriesServiceService.findAll() as unknown as Category[];
+  categories(): Promise<Category[]> {
+    return this.categoriesServiceService.findAll();
   }
 
   @Query()
-  category(_, {id}): Category {
-    return this.categoriesServiceService.findOne(id) as unknown as Category;
+  category(_, {id}): Promise<Category> {
+    return this.categoriesServiceService.findOne(id);
   }
 
   @Mutation()
-  addCategory(_, { data }): Category {
-    return this.categoriesServiceService.create(data) as unknown as Category;
+  addCategory(_, { data }): Promise<Category> {
+    return this.categoriesServiceService.create(data);
+  }
+
+  @Mutation()
+  updateCategory(_, { id, data }): Promise<Category> {
+    return this.categoriesServiceService.update(id, data);
+  }
+
+  @Mutation()
+  deleteCategory(_, { id }): Promise<string> {
+    return this.categoriesServiceService.remove(id);
   }
 }

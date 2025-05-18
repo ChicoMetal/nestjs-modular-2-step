@@ -35,14 +35,14 @@ export class CategoriesController {
 
   @Put(':id')
   update(
-    @Param('id', ParseIntPipe) id: number,
+    @Param('id', ParseIntPipe) id: string,
     @Body() payload: UpdateCategoryDto,
   ) {
     return this.categoriesService.update(id, payload);
   }
 
   @Delete(':id')
-  remove(@Param('id', ParseIntPipe) id: number) {
-    return this.categoriesService.remove(+id);
+  remove(@Param('id', ParseIntPipe) id: string) {
+    return this.categoriesService.remove(id);
   }
 }

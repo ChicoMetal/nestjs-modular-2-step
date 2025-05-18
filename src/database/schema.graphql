@@ -33,12 +33,19 @@ type Product implements BaseModel {
 }
 
 input ProductCreateInput {
+  name: String!
+  description: String!
+  price: Int!
+  stock: Int!
+  image: String!
+}
+
+input ProductUpdateInput {
   name: String
   description: String
   price: Int
   stock: Int
   image: String
-  createAt: DateTime!
 }
 
 
@@ -55,9 +62,14 @@ type Brand implements BaseModel {
 
 input BrandCreateInput {
   name: String!
+  description: String!
+  image: String!
+}
+
+input BrandUpdateInput {
+  name: String
   description: String
   image: String
-  createAt: DateTime!
 }
 
 type Category implements BaseModel {
@@ -71,16 +83,20 @@ type Category implements BaseModel {
 }
 
 input CategoryCreateInput {
-  name: String
-  description: String
-  createAt: DateTime!
+  name: String!
+  description: String!
 }
 
-type Mutation {
-  createProduct(data: ProductCreateInput): Product!
-  createBrand(data: BrandCreateInput): Brand!
-  createCategory(data: CategoryCreateInput): Category!
+input CategoryUpdateInput {
+  name: String
+  description: String
 }
+
+# type Mutation {
+#   createProduct(data: ProductCreateInput): Product!
+#   createBrand(data: BrandCreateInput): Brand!
+#   createCategory(data: CategoryCreateInput): Category!
+# }
 
 type Query {
   products: [Product]!
@@ -93,7 +109,13 @@ type Query {
 }
 
 type Mutation {
-  addProduct(data: ProductCreateInput!): Product!
-  addBrand(data: BrandCreateInput!): Brand!
-  addCategory(data: CategoryCreateInput!): Category!
+  addProduct(data: ProductCreateInput!): Product
+  updateProduct(id: ID!, data: ProductUpdateInput!): Product
+  deleteProduct(id: ID!): ID
+  addBrand(data: BrandCreateInput!): Brand
+  updateBrand(id: ID!, data: BrandUpdateInput!): Brand
+  deleteBrand(id: ID!): ID
+  addCategory(data: CategoryCreateInput!): Category
+  updateCategory(id: ID!, data: CategoryUpdateInput!): Category
+  deleteCategory(id: ID!): ID
 }

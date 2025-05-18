@@ -1,31 +1,20 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 
-import { Product } from './../entities/product.entity';
 import { CreateProductDto, UpdateProductDto } from '../dtos/products.dto';
 import { PrismaService } from '../../prisma/prisma/prisma.service';
+import { Product } from '@prisma/client';
 
 @Injectable()
 export class ProductsService {
-  private counterId = 1;
-  private products: Product[] = [
-    {
-      id: 1,
-      name: 'Producto 1',
-      description: 'lorem lorem',
-      price: 10000,
-      stock: 300,
-      image: 'https://i.imgur.com/U4iGx1j.jpeg',
-    },
-  ];
 
   constructor(private readonly prismaService: PrismaService) { }
 
-  findAll() {
+  findAll(): Promise<Product[]> {
     return this.prismaService.product.findMany();
   }
 
-  findOne(id: string) {
-    const product = this.prismaService.product.findUnique({
+  async findOne(id: string): Promise<Product> {
+    const product = await this.prismaService.product.findUnique({
       where: {
         id
       }
@@ -37,22 +26,30 @@ export class ProductsService {
   }
 
   create(data: CreateProductDto) {
+    const newData = { ...data, createAt: new Date()};
     return this.prismaService.product.create({
-      data
+      data: newData
     });
   }
 
-  update(id: number, changes: UpdateProductDto) {
-    const index = this.products.findIndex((item) => item.id === id);
-    return this.products[index];
+  update(id: string, changes: UpdateProductDto) {
+    this.findOne(id);
+    const data = {...changes, updateAt: new Date()};
+    return this.prismaService.product.update({
+      where: {
+        id
+      },
+      data
+    })
   }
 
-  remove(id: number) {
-    const index = this.products.findIndex((item) => item.id === id);
-    if (index === -1) {
-      throw new NotFoundException(`Product #${id} not found`);
-    }
-    this.products.splice(index, 1);
-    return true;
+  async remove(id: string): Promise<string> {
+    const product: Product = await this.findOne(id);
+    await this.prismaService.product.delete({
+      where: {
+        id: product.id
+      }
+    });
+    return Promise.resolve(product.id);
   }
 }

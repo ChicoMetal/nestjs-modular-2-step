@@ -10,17 +10,27 @@ export class BrandResolver {
 
 
   @Query()
-  brands(): Brand[] {
-    return this.brandsService.findAll() as unknown as Brand[];
+  brands(): Promise<Brand[]> {
+    return this.brandsService.findAll();
   }
 
   @Query()
-  brand(_, {id}): Brand {
-    return this.brandsService.findOne(id) as unknown as Brand;
+  brand(_, {id}): Promise<Brand> {
+    return this.brandsService.findOne(id);
   }
 
   @Mutation()
-  addBrand(_, { data }): Brand {
-    return this.brandsService.create(data) as unknown as Brand;
+  addBrand(_, { data }): Promise<Brand> {
+    return this.brandsService.create(data);
+  }
+
+  @Mutation()
+  updateBrand(_, { id, data }): Promise<Brand> {
+    return this.brandsService.update(id, data);
+  }
+
+  @Mutation()
+  deleteBrand(_, { id }): Promise<string> {
+    return this.brandsService.remove(id);
   }
 }

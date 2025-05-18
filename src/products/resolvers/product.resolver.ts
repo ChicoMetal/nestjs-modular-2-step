@@ -10,18 +10,29 @@ export class ProductResolver {
 
 
   @Query()
-  products(): Product[] {
-    return this.productsService.findAll() as unknown as Product[];
+  products(): Promise<Product[]> {
+    return this.productsService.findAll();
   }
 
   @Query()
-  product(_, {id}): Product {
-    return this.productsService.findOne(id) as unknown as Product;
+  product(_, {id}): Promise<Product> {
+    return this.productsService.findOne(id);
   }
 
   @Mutation()
-  addProduct(_, { data }): Product {
-    return this.productsService.create(data) as unknown as Product;
+  addProduct(_, { data }): Promise<Product> {
+    return this.productsService.create(data);
+  }
+
+
+  @Mutation()
+  updateProduct(_, { id, data }): Promise<Product> {
+    return this.productsService.update(id, data);
+  }
+
+  @Mutation()
+  deleteProduct(_, { id }): Promise<string> {
+    return this.productsService.remove(id);
   }
 
 }

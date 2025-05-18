@@ -1,19 +1,11 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 
-import { Category } from '../entities/category.entity';
 import { CreateCategoryDto, UpdateCategoryDto } from '../dtos/category.dto';
 import { PrismaService } from '../../prisma/prisma/prisma.service';
+import { Category } from '@prisma/client';
 
 @Injectable()
 export class CategoriesService {
-  private counterId = 1;
-  private categories: Category[] = [
-    {
-      id: 1,
-      name: 'Category 1',
-      description: 'Category 1',
-    },
-  ];
 
   constructor(private readonly prismaService: PrismaService) { }
 
@@ -34,27 +26,30 @@ export class CategoriesService {
   }
 
   create(data: CreateCategoryDto) {
+    const newData = { ...data, createAt: new Date()}
     return this.prismaService.category.create({
-      data
+      data: newData
     });
   }
 
-  update(id: number, changes: UpdateCategoryDto) {
-    // const category = this.findOne(id);
-    const index = this.categories.findIndex((item) => item.id === id);
-    // this.categories[index] = {
-    //   ...category,
-    //   ...changes,
-    // };
-    return this.categories[index];
+  update(id: string, changes: UpdateCategoryDto) {
+    this.findOne(id);
+    const data = { ...changes, updateAt: new Date() };
+    return this.prismaService.category.update({
+      where: {
+        id
+      },
+      data
+    })
   }
 
-  remove(id: number) {
-    const index = this.categories.findIndex((item) => item.id === id);
-    if (index === -1) {
-      throw new NotFoundException(`Category #${id} not found`);
-    }
-    this.categories.splice(index, 1);
-    return true;
+  async remove(id: string): Promise<string> {
+    const category: Category = await this.findOne(id);
+    await this.prismaService.category.delete({
+      where: {
+        id: category.id
+      }
+    });
+    return Promise.resolve(category.id);
   }
 }

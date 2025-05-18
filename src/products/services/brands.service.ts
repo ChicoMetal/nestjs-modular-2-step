@@ -1,20 +1,11 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 
-import { Brand } from '../entities/brand.entity';
 import { CreateBrandDto, UpdateBrandDto } from '../dtos/brand.dto';
 import { PrismaService } from '../../prisma/prisma/prisma.service';
+import { Brand } from '@prisma/client';
 
 @Injectable()
 export class BrandsService {
-  private counterId = 1;
-  private brands: Brand[] = [
-    {
-      id: 1,
-      name: 'Brand 1',
-      image: 'https://i.imgur.com/U4iGx1j.jpeg',
-      description: 'test',
-    },
-  ];
 
   constructor(private readonly prismaService: PrismaService) { }
 
@@ -22,40 +13,43 @@ export class BrandsService {
     return this.prismaService.brand.findMany();
   }
 
-  findOne(id: string) {
-    const product = this.prismaService.brand.findUnique({
+  async findOne(id: string): Promise<Brand> {
+    const brand: Brand = await this.prismaService.brand.findUnique({
       where: {
         id
       }
     });
-    if (!product) {
+    if (!brand) {
       throw new NotFoundException(`Brand #${id} not found`);
     }
-    return product;
+    return Promise.resolve(brand);
   }
 
   create(data: CreateBrandDto) {
+    const newData = { ...data, createAt: new Date() };
     return this.prismaService.brand.create({
-      data
+      data: newData
     });
   }
 
-  update(id: number, changes: UpdateBrandDto) {
-    // const brand = this.findOne(id);
-    const index = this.brands.findIndex((item) => item.id === id);
-    // this.brands[index] = {
-    //   ...brand,
-    //   ...changes,
-    // };
-    return this.brands[index];
+  update(id: string, changes: UpdateBrandDto) {
+    this.findOne(id);
+    const data = { ...changes, updateAt: new Date() };
+    return this.prismaService.brand.update({
+      where: {
+        id
+      },
+      data
+    })
   }
 
-  remove(id: number) {
-    const index = this.brands.findIndex((item) => item.id === id);
-    if (index === -1) {
-      throw new NotFoundException(`Brand #${id} not found`);
-    }
-    this.brands.splice(index, 1);
-    return true;
+  async remove(id: string): Promise<string> {
+    const brand: Brand = await this.findOne(id);
+    await this.prismaService.brand.delete({
+      where: {
+        id: brand.id
+      }
+    });
+    return Promise.resolve(brand.id);
   }
 }
