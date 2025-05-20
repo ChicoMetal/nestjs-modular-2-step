@@ -1,73 +1,152 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo_text.svg" width="320" alt="Nest Logo" /></a>
-</p>
+# NestJS E-commerce API
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+A modern e-commerce backend built with NestJS, GraphQL, and MongoDB.
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+## Technologies Used
 
-## Description
+- **NestJS**: A progressive Node.js framework for building efficient and scalable server-side applications
+- **GraphQL**: API query language with Apollo Server implementation
+- **MongoDB**: NoSQL database used with Prisma ORM
+- **Prisma**: Next-generation ORM for Node.js and TypeScript
+- **JWT Authentication**: JSON Web Token based authentication
+- **GraphQL Scalars**: Custom scalar types for GraphQL schema
+- **Docker**: Containerization for MongoDB database
+- **TypeScript**: Programming language for type-safe code
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+## Prerequisites
+
+- Node.js (v22 or higher)
+- Docker and Docker Compose
+- MongoDB (via Docker or local installation)
 
 ## Installation
 
+1. Clone the repository:
 ```bash
-$ npm install
+git clone <repository-url>
+cd nestjs-modular-2-step
 ```
 
-## Running the app
-
+2. Install dependencies:
 ```bash
-# development
-$ npm run start
-
-# watch mode
-$ npm run start:dev
-
-# production mode
-$ npm run start:prod
+npm install
 ```
 
-## Test
+3. Set up environment variables:
+Create a `.env` file in the root directory with the following content:
+```env
+API_KEY=1234
+DATA_BASE_NAME=my_db
+DATA_BASE_PORT=8092
+PORT=3000
+SECRET_KEY=your-secret-key
+DATABASE_URL="mongodb://127.0.0.1:27017/my_db?replicaSet=rs0&retryWrites=true&w=majority"
+```
 
+4. Start MongoDB using Docker:
 ```bash
-# unit tests
-$ npm run test
+docker-compose up -d
+```
+
+5. Generate Prisma client:
+```bash
+npm run prisma:generate
+```
+
+6. Push the database schema:
+```bash
+npm run prisma:push
+```
+
+## Running the Application
+
+### Development Mode
+```bash
+npm run start:dev
+```
+
+### Production Mode
+```bash
+npm run build
+npm run start:prod
+```
+
+### Debug Mode
+```bash
+npm run start:debug
+```
+
+## API Documentation
+
+### REST API
+The REST API documentation is available at:
+- Swagger UI: `http://localhost:3000/api`
+
+### GraphQL API
+The GraphQL playground is available at:
+- GraphQL Endpoint: `http://localhost:3000/graphql`
+
+## Features
+
+- User Authentication with JWT
+- Role-based Authorization
+- GraphQL API with Custom Scalars
+- MongoDB Integration with Prisma
+- Product Management
+- Category Management
+- User Management
+
+## Available Scripts
+
+- `npm run start:dev`: Starts the application in development mode
+- `npm run build`: Builds the application
+- `npm run start:prod`: Starts the application in production mode
+- `npm run start:debug`: Starts the application in debug mode
+- `npm run prisma:generate`: Generates Prisma client
+- `npm run prisma:push`: Pushes schema changes to the database
+- `npm run schema:gen`: Generates GraphQL schema types
+
+## Project Structure
+
+```
+src/
+├── app.module.ts        # Main application module
+├── main.ts             # Application entry point
+├── auth/               # Authentication related files
+├── users/              # User module and components
+├── products/           # Product module and components
+├── database/           # Database configuration
+├── guards/             # Authorization guards
+└── prisma/            # Prisma schema and configurations
+```
+
+## Security
+
+This application implements several security features:
+- JWT-based authentication
+- Role-based authorization
+- HTTP-only cookies
+- Environment variable validation
+- Custom guards for GraphQL endpoints
+
+## Development
+
+### Adding New Features
+1. Create a new module: `nest generate module <module-name>`
+2. Create components: `nest generate controller/service/resolver <name>`
+3. Update the Prisma schema if needed
+4. Generate new Prisma client after schema changes
+5. Implement the feature
+6. Add tests
+
+### Testing
+```bash
+# Unit tests
+npm run test
 
 # e2e tests
-$ npm run test:e2e
+npm run test:e2e
 
-# test coverage
-$ npm run test:cov
+# Test coverage
+npm run test:cov
 ```
-
-## Support
-
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
-
-## Stay in touch
-
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
-
-## License
-
-Nest is [MIT licensed](LICENSE).
