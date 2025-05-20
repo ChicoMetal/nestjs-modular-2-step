@@ -18,7 +18,6 @@ export class JWTStrategy extends PassportStrategy(Strategy) {
   }
 
   async validate(user: any): Promise<any> {
-    console.warn('---------------- payload', user);
     const findUser = await this.usersService.findOneByUserName(user.email);
     const {password, ...userInfo} = findUser;
     return of(userInfo);

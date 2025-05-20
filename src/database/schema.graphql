@@ -171,5 +171,6 @@ type Mutation {
   addUser(data: UserCreateInput!): User
   updateUser(id: ID!, data: UserUpdateInput!): User
   deleteUser(id: ID!): ID
-  login(loginUserInput: LoginInput): AuthResponse
+  login(loginUserInput: LoginInput!): AuthResponse,
+  signUp(loginUserInput: LoginInput!): User
 }

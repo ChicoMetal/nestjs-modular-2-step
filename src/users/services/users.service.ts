@@ -38,6 +38,14 @@ export class UsersService {
       return user;
   }
 
+  async isUserExists(userName: string): Promise<User> {
+    return await this.prismaService.user.findUnique({
+        where: {
+          email: userName,
+        },
+      });
+  }
+
   async authorization(userName: string, password: string): Promise<User> {
     const user = await this.prismaService.user.findUnique({
         where: {
