@@ -19,6 +19,7 @@ import { PrismaModule } from './prisma/prisma.module';
 import { SecurityModule } from './security/security.module';
 import { GqlAuthGuard } from './guards/gqlauth/gqlauth.guard';
 import { JwtAuthGuard } from './guards/jwt-auth/jwt-auth.guard';
+import { RoleGuard } from './guards/roleguard/role.guard';
 
 
 // const uriMongo = 'mongodb://localhost:27017';
@@ -68,6 +69,7 @@ import { JwtAuthGuard } from './guards/jwt-auth/jwt-auth.guard';
     AppResolver,
     GqlAuthGuard,
     JwtAuthGuard,
+    RoleGuard,
   ],
 })
 export class AppModule {}

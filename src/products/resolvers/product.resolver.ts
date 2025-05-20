@@ -4,6 +4,8 @@ import { Product } from '../../database/graphql';
 import { ProductsService } from '../services/products.service';
 import { JwtAuthGuard } from '../../guards/jwt-auth/jwt-auth.guard';
 import { UseGuards } from '@nestjs/common';
+import { RoleGuard } from '../../guards/roleguard/role.guard';
+import { Roles } from '../../decorators/roles.decorator';
 
 @Resolver()
 @UseGuards(JwtAuthGuard)
@@ -23,6 +25,8 @@ export class ProductResolver {
   }
 
   @Mutation()
+  @Roles('admin')
+  @UseGuards(RoleGuard)
   addProduct(_, { data }): Promise<Product> {
     return this.productsService.create(data);
   }

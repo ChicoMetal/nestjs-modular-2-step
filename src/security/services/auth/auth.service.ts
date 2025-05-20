@@ -43,7 +43,6 @@ export class AuthService {
     }
 
     const password = await bcrypt.hash(loginUserInput.password, 10);
-    console.warn('-------------------- signup', loginUserInput)
     return this.usersService.create({
       email: loginUserInput.userName,
       password: password,

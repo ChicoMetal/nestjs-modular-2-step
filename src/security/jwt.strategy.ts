@@ -2,7 +2,6 @@ import { Injectable } from '@nestjs/common';
 import { PassportStrategy } from '@nestjs/passport';
 import { UsersService } from '../users/services/users.service';
 import { Strategy, ExtractJwt } from 'passport-jwt';
-import { find, of } from 'rxjs';
 
 @Injectable()
 export class JWTStrategy extends PassportStrategy(Strategy) {
@@ -17,9 +16,9 @@ export class JWTStrategy extends PassportStrategy(Strategy) {
   });
   }
 
-  async validate(user: any): Promise<any> {
+  async validate(user: any) {
     const findUser = await this.usersService.findOneByUserName(user.email);
     const {password, ...userInfo} = findUser;
-    return of(userInfo);
+    return Promise.resolve(userInfo);
   }
 }
