@@ -86,6 +86,223 @@ The REST API documentation is available at:
 The GraphQL playground is available at:
 - GraphQL Endpoint: `http://localhost:3000/graphql`
 
+### GraphQL Examples
+
+#### Query Operations
+##### Headers
+```http
+Authorization: Bearer YOUR_JWT_TOKEN
+```
+
+```graphql
+query ExampleQuery($productId: ID!) {
+
+  # Get all products with their categories
+  products {
+    id
+    name
+    categoryId
+    category {
+      name
+    }
+  }
+
+  # Get specific product with detailed category info
+  product(id: $productId) {
+    id
+    name
+    createAt
+    categoryId
+    category {
+      id
+      name
+      products {
+        id
+      }      
+    }
+  }
+  
+  # Get all categories with their products
+  categories {
+    id
+    name
+    products {
+      id
+      name
+    }
+  }
+  
+  # Get all brands
+  brands {
+    id
+    name
+  }
+  
+  # Get all users
+  users {
+    email
+    role
+  }
+}
+```
+##### Variables
+```json
+{
+  "productId": "68282e86876f2705d513fdd6"
+}
+```
+
+
+
+#### Creation and Authentication Operations
+##### Headers
+```http
+Authorization: Bearer YOUR_JWT_TOKEN
+```
+
+```graphql
+# Create a new product
+  mutation($data: ProductCreateInput!) {
+    addProduct(data: $data) {
+      id
+      name
+    }
+  }
+
+  # Create a new category
+  mutation($addCategoryData: CategoryCreateInput!) {
+    addCategory(data: $addCategoryData) {
+      id
+      name
+    }
+  }
+
+  # Create a new brand
+  mutation($addBrandData: BrandCreateInput!) {
+    addBrand(data: $addBrandData) {
+      id
+      name
+    }
+  }
+
+  # Create a new user
+  mutation($addUserData2: UserCreateInput!) {
+    addUser(data: $addUserData2) {
+      email
+      password
+    }
+  }
+
+  # User login
+  mutation($loginUserInput: LoginInput!) {
+    login(loginUserInput: $loginUserInput) {
+      access_token
+      user {
+        id
+        email
+      }
+    }
+  }
+
+  # User signup
+  mutation($signUpLoginUserInput2: LoginInput!) {
+    signUp(loginUserInput: $signUpLoginUserInput2) {
+      id
+      email
+    }
+  }
+```
+
+##### Variables
+  ```json
+  {
+    "data": {
+      "name": "smartwatch 4",
+      "description": "latest smartwatch",
+      "price": 1200,
+      "stock": 24,
+      "image": "http://myimages/image1.png",
+      "categoryId": "6828307dc11f3f65281bb6ee"
+    },
+    "addCategoryData": {
+      "name": "category 2",
+      "description": "category description 2"
+    },
+    "addBrandData": {
+      "name": "brand 1",
+      "description": "description 1",
+      "image": "http://myimages/image2.png"
+    },
+    "addUserData2": {
+      "email": "carlos@gmail.com",
+      "password": "123",
+      "role": "admin"
+    },
+    "loginUserInput": {
+      "userName": "carlos@gmail.com",
+      "password": "123"
+    },
+    "signUpLoginUserInput2": {
+      "userName": "carlos@gmail.com",
+      "password": "123"
+    }
+  }
+  ```
+
+#### Update Operations
+##### Headers
+```http
+Authorization: Bearer YOUR_JWT_TOKEN
+```
+
+```graphql
+
+  # Update a product
+  mutation($updateProductId: ID!, $data: ProductUpdateInput!) {
+    updateProduct(id: $updateProductId, data: $data) {
+      id
+      name
+    }
+  }
+```
+
+##### Variables
+  ```json
+  {
+    "updateProductId": "68282e86876f2705d513fdd6",
+    "data": {
+      "name": "smartwatch new"
+    }
+  }
+  ```
+
+#### Delete Operations
+##### Headers
+```http
+Authorization: Bearer YOUR_JWT_TOKEN
+```
+
+```graphql
+
+  # Delete a brand
+  mutation($deleteBrandId: ID!) {
+    deleteBrand(id: $deleteBrandId)
+  }
+
+  # Delete a product
+  mutation($deleteProductId: ID!) {
+    deleteProduct(id: $deleteProductId)
+  }
+
+```
+##### Variables
+  ```json
+  {
+    "deleteBrandId": "682831773b1e354a44a51629",
+    "deleteProductId": "68282e86876f2705d513fdd6"
+  }
+  ```
+
 ## Features
 
 - User Authentication with JWT
