@@ -2,8 +2,11 @@ import { Mutation, Query, Resolver } from '@nestjs/graphql';
 import { randomUUID } from 'crypto';
 import { Category } from '../../database/graphql';
 import { CategoriesService } from '../services/categories.service';
+import { JwtAuthGuard } from '../../guards/jwt-auth/jwt-auth.guard';
+import { UseGuards } from '@nestjs/common';
 
 @Resolver()
+@UseGuards(JwtAuthGuard)
 export class CategoryResolver {
 
   constructor(private readonly categoriesServiceService: CategoriesService) {}

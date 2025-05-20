@@ -1,9 +1,12 @@
-import { Mutation, Query, Resolver } from '@nestjs/graphql';
+import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { randomUUID } from 'crypto';
 import { Product } from '../../database/graphql';
 import { ProductsService } from '../services/products.service';
+import { JwtAuthGuard } from '../../guards/jwt-auth/jwt-auth.guard';
+import { UseGuards } from '@nestjs/common';
 
 @Resolver()
+@UseGuards(JwtAuthGuard)
 export class ProductResolver {
 
   constructor(private readonly productsService: ProductsService) {}
@@ -15,7 +18,7 @@ export class ProductResolver {
   }
 
   @Query()
-  product(_, {id}): Promise<Product> {
+  product(@Args('id') id: string): Promise<Product> {
     return this.productsService.findOne(id);
   }
 

@@ -1,10 +1,7 @@
-import { Controller, Get, Param, Query, Res } from '@nestjs/common';
-import { AppService } from './app.service';
-import { Response } from 'express';
+import { Controller, Get } from '@nestjs/common';
 
 @Controller()
 export class AppController {
-  constructor(private readonly appService: AppService) {}
 
   @Get()
   getHello(): string {
@@ -21,19 +18,4 @@ export class AppController {
     return 'con /sas/';
   }
 
-  @Get('auth/:email/:pass')
-  auth(
-    @Param('email') email: string,
-    @Param('pass') password: string,
-    @Res({ passthrough: true }) res: Response,
-  ): { email: string } {
-    const token = this.appService.auth(email, password);
-    res.cookie('access_token', token, {
-      httpOnly: true,
-      sameSite: 'strict',
-      maxAge: 1000 * 60 * 60,
-      path: '/',
-    });
-    return { email };
-  }
 }

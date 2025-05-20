@@ -119,9 +119,24 @@ input UserUpdateInput {
   role: String
 }
 
+type UserResponse {
+  id: ID!
+  createAt: DateTime!
+  updateAt: DateTime
+  deleteAt: DateTime
+
+  email: String!
+  role: String!
+}
+
 type AuthResponse {
   access_token: String!
-  userName: String!
+  user: UserResponse!
+}
+
+input LoginInput {
+  userName: String
+  password: String
 }
 
 
@@ -156,5 +171,5 @@ type Mutation {
   addUser(data: UserCreateInput!): User
   updateUser(id: ID!, data: UserUpdateInput!): User
   deleteUser(id: ID!): ID
-  login(email: String!, password: String!): AuthResponse
+  login(loginUserInput: LoginInput): AuthResponse
 }

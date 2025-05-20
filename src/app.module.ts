@@ -16,6 +16,9 @@ import { GraphQLModule } from '@nestjs/graphql';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { ApolloServerPluginLandingPageLocalDefault } from '@apollo/server/plugin/landingPage/default';
 import { PrismaModule } from './prisma/prisma.module';
+import { SecurityModule } from './security/security.module';
+import { GqlAuthGuard } from './guards/gqlauth/gqlauth.guard';
+import { JwtAuthGuard } from './guards/jwt-auth/jwt-auth.guard';
 
 
 // const uriMongo = 'mongodb://localhost:27017';
@@ -56,12 +59,15 @@ import { PrismaModule } from './prisma/prisma.module';
       plugins: [ApolloServerPluginLandingPageLocalDefault()], // dev mode
     }),
     PrismaModule,
+    SecurityModule,
   ],
   controllers: [AppController],
   providers: [
     AppService,
     AuthGuard,
     AppResolver,
+    GqlAuthGuard,
+    JwtAuthGuard,
   ],
 })
 export class AppModule {}

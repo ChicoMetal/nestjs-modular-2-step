@@ -2,8 +2,11 @@ import { Mutation, Query, Resolver } from '@nestjs/graphql';
 import { randomUUID } from 'crypto';
 import { UsersService } from '../services/users.service';
 import { User } from '@prisma/client';
+import { UseGuards } from '@nestjs/common';
+import { JwtAuthGuard } from '../../guards/jwt-auth/jwt-auth.guard';
 
 @Resolver()
+@UseGuards(JwtAuthGuard)
 export class UserResolver {
 
   constructor(private readonly userService: UsersService) {}
