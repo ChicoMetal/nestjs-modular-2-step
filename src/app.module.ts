@@ -24,8 +24,14 @@ import { resolvers as scalarResolvers, typeDefs as scalarTypeDefs } from 'graphq
 import { RegularExpression } from 'graphql-scalars';
 
 const CategoryNameType = new RegularExpression('CategoryNameType', /^[a-zA-Z0-9]{3,8}/);
+const Category = {
+  // products: (parent, args, context, info) =>
+  //   context.injector.get('ProductsResolver').productsByCategory(parent, args, context, info)
+  // products: () => []
+}
 const resolverFunctions = {
-  CategoryNameType
+  CategoryNameType,
+  // Category
 }
 // const uriMongo = 'mongodb://localhost:27017';
 // const client = new MongoClient(uriMongo);

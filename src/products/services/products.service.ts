@@ -11,9 +11,9 @@ export class ProductsService {
 
   findAll(): Promise<Product[]> {
     return this.prismaService.product.findMany({
-      include: {
-        category: true,
-      },
+      // include: {
+      //   category: true,
+      // },
     });
   }
 
@@ -22,9 +22,9 @@ export class ProductsService {
       where: {
         id
       },
-      include: {
-        category: true,
-      },
+      // include: {
+      //   category: true,
+      // },
     });
     if (!product) {
       throw new NotFoundException(`Product #${id} not found`);
@@ -58,5 +58,13 @@ export class ProductsService {
       }
     });
     return Promise.resolve(product.id);
+  }
+
+  findByCategory(categoryId: string): Promise<Product[]> {
+    return this.prismaService.product.findMany({
+      where: {
+        categoryId: categoryId
+      }
+    });
   }
 }

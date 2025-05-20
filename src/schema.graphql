@@ -1,3 +1,4 @@
+scalar ScalarName
 scalar DateTime
 
 interface BaseModel {
@@ -83,6 +84,7 @@ type Category implements BaseModel {
 
   name: CategoryNameType
   description: String
+  products: [Product!]!
 }
 
 input CategoryCreateInput {
@@ -141,12 +143,6 @@ input LoginInput {
 }
 
 
-# type Mutation {
-#   createProduct(data: ProductCreateInput): Product!
-#   createBrand(data: BrandCreateInput): Brand!
-#   createCategory(data: CategoryCreateInput): Category!
-# }
-
 type Query {
   products: [Product]!
   product(id: ID!): Product
@@ -157,6 +153,8 @@ type Query {
   testList(elements: [Int!]!): [Int]!
   users: [User]!
   user(id: ID!): User
+  productsByCategory: [Product!]!
+  categoriesByProduct: Category!
 }
 
 type Mutation {

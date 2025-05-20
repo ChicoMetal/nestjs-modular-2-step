@@ -52,4 +52,16 @@ export class CategoriesService {
     });
     return Promise.resolve(category.id);
   }
+
+  findByProduct(productId: string): Promise<Category[]> {
+    return this.prismaService.category.findMany({
+      where: {
+        products: {
+          some: {
+            id: productId,
+          },
+        },
+      },
+    });
+  }
 }
