@@ -38,6 +38,8 @@ export class ProductResolver {
   }
 
   @Mutation()
+  @Roles('admin')
+  @UseGuards(RoleGuard)
   deleteProduct(_, { id }): Promise<string> {
     return this.productsService.remove(id);
   }

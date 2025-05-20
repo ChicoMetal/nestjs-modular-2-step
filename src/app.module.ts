@@ -20,8 +20,13 @@ import { SecurityModule } from './security/security.module';
 import { GqlAuthGuard } from './guards/gqlauth/gqlauth.guard';
 import { JwtAuthGuard } from './guards/jwt-auth/jwt-auth.guard';
 import { RoleGuard } from './guards/roleguard/role.guard';
+import { resolvers as scalarResolvers, typeDefs as scalarTypeDefs } from 'graphql-scalars';
+import { RegularExpression } from 'graphql-scalars';
 
-
+const CategoryNameType = new RegularExpression('CategoryNameType', /^[a-zA-Z0-9]{3,8}/);
+const resolverFunctions = {
+  CategoryNameType
+}
 // const uriMongo = 'mongodb://localhost:27017';
 // const client = new MongoClient(uriMongo);
 // async function run() {
@@ -55,6 +60,8 @@ import { RoleGuard } from './guards/roleguard/role.guard';
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
       typePaths: ['./**/*.graphql'],
+      typeDefs: [...scalarTypeDefs],
+      resolvers: {...scalarResolvers, ...resolverFunctions},
       graphiql: false, // new to use instead of playground
       playground: false, //deprecated
       plugins: [ApolloServerPluginLandingPageLocalDefault()], // dev mode

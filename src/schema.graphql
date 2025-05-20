@@ -29,7 +29,7 @@ type Product implements BaseModel {
   description: String
   price: Int
   stock: Int
-  image: String
+  image: URL
   categoryId: ID!
   category: Category
 }
@@ -39,7 +39,7 @@ input ProductCreateInput {
   description: String!
   price: Int!
   stock: Int!
-  image: String!
+  image: URL!
   categoryId: ID!
 }
 
@@ -48,7 +48,7 @@ input ProductUpdateInput {
   description: String
   price: Int
   stock: Int
-  image: String
+  image: URL
 }
 
 
@@ -60,13 +60,13 @@ type Brand implements BaseModel {
 
   name: String
   description: String
-  image: String
+  image: URL
 }
 
 input BrandCreateInput {
   name: String!
   description: String!
-  image: String!
+  image: URL!
 }
 
 input BrandUpdateInput {
@@ -81,17 +81,17 @@ type Category implements BaseModel {
   updateAt: DateTime
   deleteAt: DateTime
 
-  name: String
+  name: CategoryNameType
   description: String
 }
 
 input CategoryCreateInput {
-  name: String!
+  name: CategoryNameType!
   description: String!
 }
 
 input CategoryUpdateInput {
-  name: String
+  name: CategoryNameType
   description: String
 }
 
@@ -103,19 +103,19 @@ type User implements BaseModel {
   updateAt: DateTime
   deleteAt: DateTime
 
-  email: String!
+  email: EmailAddress!
   password: String!
   role: String!
 }
 
 input UserCreateInput {
-  email: String!
+  email: EmailAddress!
   password: String!
   role: String!
 }
 
 input UserUpdateInput {
-  email: String
+  email: EmailAddress
   password: String
   role: String
 }
@@ -126,7 +126,7 @@ type UserResponse {
   updateAt: DateTime
   deleteAt: DateTime
 
-  email: String!
+  email: EmailAddress!
   role: String!
 }
 
@@ -175,3 +175,5 @@ type Mutation {
   login(loginUserInput: LoginInput!): AuthResponse,
   signUp(loginUserInput: LoginInput!): User
 }
+
+scalar CategoryNameType

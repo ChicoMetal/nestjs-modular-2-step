@@ -4,6 +4,8 @@ import { Category } from '../../database/graphql';
 import { CategoriesService } from '../services/categories.service';
 import { JwtAuthGuard } from '../../guards/jwt-auth/jwt-auth.guard';
 import { UseGuards } from '@nestjs/common';
+import { RoleGuard } from '../../guards/roleguard/role.guard';
+import { Roles } from '../../decorators/roles.decorator';
 
 @Resolver()
 @UseGuards(JwtAuthGuard)
@@ -23,6 +25,8 @@ export class CategoryResolver {
   }
 
   @Mutation()
+  @Roles('admin')
+  @UseGuards(RoleGuard)
   addCategory(_, { data }): Promise<Category> {
     return this.categoriesServiceService.create(data);
   }
@@ -33,6 +37,8 @@ export class CategoryResolver {
   }
 
   @Mutation()
+  @Roles('admin')
+  @UseGuards(RoleGuard)
   deleteCategory(_, { id }): Promise<string> {
     return this.categoriesServiceService.remove(id);
   }

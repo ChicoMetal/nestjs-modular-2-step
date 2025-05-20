@@ -4,6 +4,8 @@ import { UsersService } from '../services/users.service';
 import { User } from '@prisma/client';
 import { UseGuards } from '@nestjs/common';
 import { JwtAuthGuard } from '../../guards/jwt-auth/jwt-auth.guard';
+import { RoleGuard } from '../../guards/roleguard/role.guard';
+import { Roles } from '../../decorators/roles.decorator';
 
 @Resolver()
 @UseGuards(JwtAuthGuard)
@@ -23,6 +25,8 @@ export class UserResolver {
   }
 
   @Mutation()
+  @Roles('admin')
+  @UseGuards(RoleGuard)
   addUser(_, { data }): Promise<User> {
     return this.userService.create(data);
   }
@@ -34,6 +38,8 @@ export class UserResolver {
   }
 
   @Mutation()
+  @Roles('admin')
+  @UseGuards(RoleGuard)
   deleteUser(_, { id }): Promise<string> {
     return this.userService.remove(id);
   }

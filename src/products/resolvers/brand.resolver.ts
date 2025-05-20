@@ -4,6 +4,8 @@ import { Brand } from '../../database/graphql';
 import { BrandsService } from '../services/brands.service';
 import { JwtAuthGuard } from '../../guards/jwt-auth/jwt-auth.guard';
 import { UseGuards } from '@nestjs/common';
+import { RoleGuard } from '../../guards/roleguard/role.guard';
+import { Roles } from '../../decorators/roles.decorator';
 
 @Resolver()
 @UseGuards(JwtAuthGuard)
@@ -23,6 +25,8 @@ export class BrandResolver {
   }
 
   @Mutation()
+  @Roles('admin')
+  @UseGuards(RoleGuard)
   addBrand(_, { data }): Promise<Brand> {
     return this.brandsService.create(data);
   }
@@ -33,6 +37,8 @@ export class BrandResolver {
   }
 
   @Mutation()
+  @Roles('admin')
+  @UseGuards(RoleGuard)
   deleteBrand(_, { id }): Promise<string> {
     return this.brandsService.remove(id);
   }
