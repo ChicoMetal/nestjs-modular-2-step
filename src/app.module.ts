@@ -11,7 +11,7 @@ import * as joi from 'joi';
 import { MongoClient } from 'mongodb';
 import { JwtModule } from '@nestjs/jwt';
 import { AuthGuard } from './guards/auth-guard.guard';
-import { AppResolver } from './database/app.resolver';
+import { AppResolver } from './app.resolver';
 import { GraphQLModule } from '@nestjs/graphql';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { ApolloServerPluginLandingPageLocalDefault } from '@apollo/server/plugin/landingPage/default';

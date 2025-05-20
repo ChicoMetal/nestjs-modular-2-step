@@ -30,6 +30,8 @@ type Product implements BaseModel {
   price: Int
   stock: Int
   image: String
+  categoryId: ID!
+  category: Category
 }
 
 input ProductCreateInput {
@@ -92,6 +94,37 @@ input CategoryUpdateInput {
   description: String
 }
 
+
+type User implements BaseModel {
+
+  id: ID!
+  createAt: DateTime!
+  updateAt: DateTime
+  deleteAt: DateTime
+
+  email: String!
+  password: String!
+  role: String!
+}
+
+input UserCreateInput {
+  email: String!
+  password: String!
+  role: String!
+}
+
+input UserUpdateInput {
+  email: String
+  password: String
+  role: String
+}
+
+type AuthResponse {
+  access_token: String!
+  userName: String!
+}
+
+
 # type Mutation {
 #   createProduct(data: ProductCreateInput): Product!
 #   createBrand(data: BrandCreateInput): Brand!
@@ -106,6 +139,8 @@ type Query {
   brands: [Brand]!
   brand(id: ID!): Brand!,
   testList(elements: [Int!]!): [Int]!
+  users: [User]!
+  user(id: ID!): User
 }
 
 type Mutation {
@@ -118,4 +153,8 @@ type Mutation {
   addCategory(data: CategoryCreateInput!): Category
   updateCategory(id: ID!, data: CategoryUpdateInput!): Category
   deleteCategory(id: ID!): ID
+  addUser(data: UserCreateInput!): User
+  updateUser(id: ID!, data: UserUpdateInput!): User
+  deleteUser(id: ID!): ID
+  login(email: String!, password: String!): AuthResponse
 }

@@ -41,6 +41,7 @@
     "cookie-parser": "^1.4.7",
     "g": "^2.0.1",
     "graphql": "^16.11.0",
+    "graphql-passport": "^0.6.8",
     "joi": "^17.13.3",
     "mongodb": "^6.16.0",
     "reflect-metadata": "^0.2.2",

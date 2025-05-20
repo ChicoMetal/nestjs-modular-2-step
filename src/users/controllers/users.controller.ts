@@ -44,7 +44,7 @@ export class UsersController {
   }
 
   @Get(':id')
-  get(@Param('id', ParseIntPipe) id: number) {
+  get(@Param('id', ParseIntPipe) id: string) {
     return this.usersService.findOne(id);
   }
 
@@ -73,15 +73,15 @@ export class UsersController {
 
   @Put(':id')
   update(
-    @Param('id', ParseIntPipe) id: number,
+    @Param('id', ParseIntPipe) id: string,
     @Body() payload: UpdateUserDto,
   ) {
     return this.usersService.update(id, payload);
   }
 
   @Delete(':id')
-  remove(@Param('id', ParseIntPipe) id: number) {
-    return this.usersService.remove(+id);
+  remove(@Param('id', ParseIntPipe) id: string) {
+    return this.usersService.remove(id);
   }
 
   @Get(':id/orders')

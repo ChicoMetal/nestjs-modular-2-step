@@ -10,14 +10,21 @@ export class ProductsService {
   constructor(private readonly prismaService: PrismaService) { }
 
   findAll(): Promise<Product[]> {
-    return this.prismaService.product.findMany();
+    return this.prismaService.product.findMany({
+      include: {
+        category: true,
+      },
+    });
   }
 
   async findOne(id: string): Promise<Product> {
     const product = await this.prismaService.product.findUnique({
       where: {
         id
-      }
+      },
+      include: {
+        category: true,
+      },
     });
     if (!product) {
       throw new NotFoundException(`Product #${id} not found`);

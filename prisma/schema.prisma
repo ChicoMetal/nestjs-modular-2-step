@@ -23,6 +23,8 @@ model Product {
   createAt DateTime
   updateAt DateTime?
   deleteAt DateTime?
+  categoryId String @db.ObjectId
+  category Category @relation(fields: [categoryId], references: [id])
 }
 
 model Category {
@@ -32,6 +34,7 @@ model Category {
   createAt DateTime
   updateAt DateTime?
   deleteAt DateTime?
+  products Product[]
 }
 
 model Brand {
@@ -39,6 +42,16 @@ model Brand {
   name String
   description String
   image String
+  createAt DateTime
+  updateAt DateTime?
+  deleteAt DateTime?
+}
+
+model User {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  email String @unique
+  password String
+  role String
   createAt DateTime
   updateAt DateTime?
   deleteAt DateTime?

@@ -21,12 +21,13 @@ export class AppController {
     return 'con /sas/';
   }
 
-  @Get('auth/:email')
+  @Get('auth/:email/:pass')
   auth(
     @Param('email') email: string,
+    @Param('pass') password: string,
     @Res({ passthrough: true }) res: Response,
   ): { email: string } {
-    const token = this.appService.auth(email);
+    const token = this.appService.auth(email, password);
     res.cookie('access_token', token, {
       httpOnly: true,
       sameSite: 'strict',
